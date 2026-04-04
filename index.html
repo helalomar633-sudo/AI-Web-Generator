@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Generator Pro | منصة ابتكار الكود</title>
+    <style>
+        /* تصميم فخم: أسود وذهبي */
+        body {
+            background-color: #0a0a0a; /* أسود ملكي */
+            color: #d4af37; /* ذهبي */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            width: 80%;
+            max-width: 700px;
+            position: relative;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 20px;
+            background: #1a1a1a;
+            border: 2px solid #d4af37; /* إطار ذهبي */
+            border-radius: 15px;
+            color: white;
+            font-size: 1.2rem;
+            resize: none;
+            outline: none;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #d4af37, #f9e2af);
+            border: none;
+            border-radius: 10px;
+            color: black;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Code Generator Pro</h1>
+    <div class="search-container">
+        <textarea id="prompt" rows="5" placeholder="اكتب هنا مواصفات الموقع الذي تريده..."></textarea>
+        <button onclick="generateCode()">توليد الأكواد فوراً ✨</button>
+    </div>
+
+    <script>
+        function generateCode() {
+            alert("بدأنا العمل! سنقوم بربط هذا الزر بالذكاء الاصطناعي في الخطوة القادمة.");
+        }
+    </script>
+
+</body>
+</html>
