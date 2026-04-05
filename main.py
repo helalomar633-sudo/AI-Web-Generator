@@ -27,16 +27,13 @@ async def generate_code(query: Query):
                 "Content-Type": "application/json"
             },
             json={
-                "model": "llama3-8b-8192",
+               json={
+                "model": "llama-3.3-70b-versatile", # هذا هو التحديث المطلوب
                 "messages": [
                     {"role": "system", "content": "أنت مبرمج محترف. ردي فقط بالكود البرمجي HTML/CSS بدون أي كلام جانبي."},
                     {"role": "user", "content": query.prompt}
                 ]
             }
-        )
-        
-        result = response.json()
-        
         # فحص لو فيه خطأ جاي من Groq نفسه
         if 'choices' in result:
             ai_code = result['choices'][0]['message']['content']
