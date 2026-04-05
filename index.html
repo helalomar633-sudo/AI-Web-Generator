@@ -71,10 +71,33 @@
     </div>
 
     <script>
-        function generateCode() {
-            alert("بدأنا العمل! سنقوم بربط هذا الزر بالذكاء الاصطناعي في الخطوة القادمة.");
-        }
-    </script>
+        async function generateCode() {
+    const prompt = document.getElementById('userPrompt').value;
+    const output = document.getElementById('output');
 
-</body>
-</html>
+    if (!prompt) {
+        alert("من فضلك اكتب وصفاً للموقع أولاً!");
+        return;
+    }
+
+    output.innerText = "جاري الاتصال بالمحرك وتوليد الأكواد... ⏳";
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt })
+        });
+
+        const data = await response.json();
+        
+        if (data.code) {
+            output.innerText = data.code;
+        } else if (data.error) {
+            output.innerText = "حدث خطأ: " + data.error;
+        }
+    } catch (error) {
+        output.innerText = "تأكد من تشغيل الشاشة السوداء (CMD) أولاً! (Error: " + error.message + ")";
+    }
+}
+        
