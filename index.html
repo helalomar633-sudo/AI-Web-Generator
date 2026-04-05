@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <title>Code Generator Pro | منصة ابتكار الكود</title>
     <style>
-        /* تصميم فخم: أسود وذهبي */
         body {
-            background-color: #0a0a0a; /* أسود ملكي */
-            color: #d4af37; /* ذهبي */
+            background-color: #0a0a0a;
+            color: #d4af37;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start; /* تغيير السنتر عشان النتيجة تظهر براحتها */
+            min-height: 100vh;
             margin: 0;
+            padding-top: 50px;
         }
 
         h1 {
@@ -26,20 +26,19 @@
         .search-container {
             width: 80%;
             max-width: 700px;
-            position: relative;
         }
 
         textarea {
             width: 100%;
             padding: 20px;
             background: #1a1a1a;
-            border: 2px solid #d4af37; /* إطار ذهبي */
+            border: 2px solid #d4af37;
             border-radius: 15px;
             color: white;
             font-size: 1.2rem;
             resize: none;
             outline: none;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            box-sizing: border-box;
         }
 
         button {
@@ -52,13 +51,22 @@
             font-weight: bold;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: 0.3s;
             width: 100%;
         }
 
-        button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+        /* صندوق النتيجة الجديد */
+        #output {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 700px;
+            background: #111;
+            border: 1px dashed #d4af37;
+            padding: 20px;
+            color: #fff;
+            border-radius: 10px;
+            white-space: pre-wrap; /* عشان يحافظ على شكل الكود */
+            font-family: monospace;
+            display: none; /* مخفي في البداية */
         }
     </style>
 </head>
@@ -66,38 +74,46 @@
 
     <h1>Code Generator Pro</h1>
     <div class="search-container">
-        <textarea id="prompt" rows="5" placeholder="اكتب هنا مواصفات الموقع الذي تريده..."></textarea>
+        <!-- تأكدنا إن الـ ID هو userPrompt -->
+        <textarea id="userPrompt" rows="5" placeholder="اكتب هنا مواصفات الموقع الذي تريده..."></textarea>
         <button onclick="generateCode()">توليد الأكواد فوراً ✨</button>
+        
+        <!-- أضفنا صندوق النتيجة -->
+        <div id="output"></div>
     </div>
 
     <script>
         async function generateCode() {
-    const prompt = document.getElementById('userPrompt').value;
-    const output = document.getElementById('output');
+            const promptInput = document.getElementById('userPrompt');
+            const output = document.getElementById('output');
 
-    if (!prompt) {
-        alert("من فضلك اكتب وصفاً للموقع أولاً!");
-        return;
-    }
+            if (!promptInput.value) {
+                alert("من فضلك اكتب وصفاً للموقع أولاً!");
+                return;
+            }
 
-    output.innerText = "جاري الاتصال بالمحرك وتوليد الأكواد... ⏳";
+            // إظهار الصندوق وكتابة رسالة الانتظار
+            output.style.display = "block";
+            output.innerText = "جاري الاتصال بالمحرك وتوليد الأكواد... ⏳";
 
-    try {
-        const response = await fetch('http://127.0.0.1:8000/generate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt })
-        });
+            try {
+                const response = await fetch('http://127.0.0.1:8000/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: promptInput.value })
+                });
 
-        const data = await response.json();
-        
-        if (data.code) {
-            output.innerText = data.code;
-        } else if (data.error) {
-            output.innerText = "حدث خطأ: " + data.error;
+                const data = await response.json();
+                
+                if (data.code) {
+                    output.innerText = data.code;
+                } else if (data.error) {
+                    output.innerText = "حدث خطأ من السيرفر: " + data.error;
+                }
+            } catch (error) {
+                output.innerText = "خطأ: تأكد من تشغيل الشاشة السوداء (CMD) وكتابة python main.py";
+            }
         }
-    } catch (error) {
-        output.innerText = "تأكد من تشغيل الشاشة السوداء (CMD) أولاً! (Error: " + error.message + ")";
-    }
-}
-        
+    </script>
+</body>
+</html>
